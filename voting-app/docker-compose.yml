@@ -1,26 +1,57 @@
 version: "2"
 
 services:
-  vote:
+  voting-app:
+    #image: nicolaka/voting-app:latest
     build: ./vote
     command: python app.py
     ports:
       - "80"
-
-  redis:
-    image: redis:alpine
-    ports: ["6379"]
-
-  worker:
-    build: ./worker
-
-  db:
-    image: postgres:9.4
-
-  result:
+    networks:
+      voteapp:
+      #environment:
+          #- "constraint:node==app-node2"
+    labels:
+         interlock.hostname: "vote"
+         interlock.domain:   "example.com"
+  result-app:
+    #image: nicolaka/result-app:latest
     build: ./result
     command: nodemon --debug server.js
     ports:
       - "80"
-      - "5858"
+    networks:
+      voteapp:
+      #environment:
+          #- "constraint:node==app-node2"
+    labels:
+         interlock.hostname: "results"
+         interlock.domain:   "example.com"
+  worker:
+    #image: nicolaka/worker:latest
+    build: ./worker
+    networks:
+      voteapp:
+       aliases:
+        - workers
+  redis:
+    image: redis
+    ports:
+      - "6379"
+    networks:
+      voteapp:
+    container_name: redis
+
+  db:
+    image: postgres:9.4
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      voteapp:
+    container_name: db
+volumes:
+  db-data:
+
+networks:
+  voteapp:
 
