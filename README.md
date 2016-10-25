@@ -6,6 +6,7 @@ Getting started
 ---------------
 blah blah
 
+blah
 Run in this directory:
 
     $ docker-compose up
