@@ -1,12 +1,10 @@
 Instavote
-trigger change part 2
+testing services
 =========
-
+test
 Getting started
 ---------------
-blah blah
 
-blah
 Run in this directory:
 
     $ docker-compose up
