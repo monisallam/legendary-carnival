@@ -3,6 +3,7 @@ testing services
 =========
 test
 Getting started
+test seattle
 ---------------
 
 Run in this directory:
